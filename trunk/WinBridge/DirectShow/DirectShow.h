@@ -86,14 +86,14 @@ namespace WinBridge { namespace DirectShow {
 			}
 
 		public:
-			static initonly Guid^ DmocategoryAll = GUID2Guid(&GUID_NULL);
-			static initonly Guid^ DmocategoryAudioDecoder = GUID2Guid(&DMOCATEGORY_AUDIO_DECODER);
-			static initonly Guid^ DmocategoryAudioEffect = GUID2Guid(&DMOCATEGORY_AUDIO_EFFECT);
-			static initonly Guid^ DmocategoryAudioEncoder = GUID2Guid(&DMOCATEGORY_AUDIO_ENCODER);
-			static initonly Guid^ DmocategoryVideoDecoder = GUID2Guid(&DMOCATEGORY_VIDEO_DECODER);
-			static initonly Guid^ DmocategoryVideoEffect = GUID2Guid(&DMOCATEGORY_VIDEO_EFFECT);
-			static initonly Guid^ DmocategoryVideoEncoder = GUID2Guid(&DMOCATEGORY_VIDEO_ENCODER);
-			static initonly Guid^ DmocategoryAudioCaptureEffect = GUID2Guid(&DMOCATEGORY_AUDIO_CAPTURE_EFFECT);
+			static initonly Guid DmocategoryAll = *GUID2Guid(&GUID_NULL);
+			static initonly Guid DmocategoryAudioDecoder = *GUID2Guid(&DMOCATEGORY_AUDIO_DECODER);
+			static initonly Guid DmocategoryAudioEffect = *GUID2Guid(&DMOCATEGORY_AUDIO_EFFECT);
+			static initonly Guid DmocategoryAudioEncoder = *GUID2Guid(&DMOCATEGORY_AUDIO_ENCODER);
+			static initonly Guid DmocategoryVideoDecoder = *GUID2Guid(&DMOCATEGORY_VIDEO_DECODER);
+			static initonly Guid DmocategoryVideoEffect = *GUID2Guid(&DMOCATEGORY_VIDEO_EFFECT);
+			static initonly Guid DmocategoryVideoEncoder = *GUID2Guid(&DMOCATEGORY_VIDEO_ENCODER);
+			static initonly Guid DmocategoryAudioCaptureEffect = *GUID2Guid(&DMOCATEGORY_AUDIO_CAPTURE_EFFECT);
 
 			Dmo(void);
 			~Dmo(void);
