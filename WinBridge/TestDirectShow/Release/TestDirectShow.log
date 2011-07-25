@@ -1,5 +1,9 @@
-﻿2011/07/25 13:41:37 にビルドを開始しました。
+﻿2011/07/25 17:00:32 にビルドを開始しました。
+     1>ノード 2 上のプロジェクト "C:\shared\svn\WinBridge\TestDirectShow\TestDirectShow.vcxproj" (clean ターゲット)。
+     1>_PrepareForClean:
+         ファイル "Release\TestDirectShow.lastbuildstate" を削除しています。
+     1>プロジェクト "C:\shared\svn\WinBridge\TestDirectShow\TestDirectShow.vcxproj" (clean ターゲット) のビルドが完了しました。
 
 ビルドに成功しました。
 
-経過時間 00:00:00.01
+経過時間 00:00:00.03
