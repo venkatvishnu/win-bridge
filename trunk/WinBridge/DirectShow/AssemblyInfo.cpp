@@ -14,9 +14,9 @@ using namespace System::Security::Permissions;
 [assembly:AssemblyTitleAttribute("DirectShow")];
 [assembly:AssemblyDescriptionAttribute("")];
 [assembly:AssemblyConfigurationAttribute("")];
-[assembly:AssemblyCompanyAttribute("株式会社リコー")];
+[assembly:AssemblyCompanyAttribute("")];
 [assembly:AssemblyProductAttribute("DirectShow")];
-[assembly:AssemblyCopyrightAttribute("Copyright (c) 株式会社リコー 2011")];
+[assembly:AssemblyCopyrightAttribute("Copyright (c) Hiro 2011")];
 [assembly:AssemblyTrademarkAttribute("")];
 [assembly:AssemblyCultureAttribute("")];
 

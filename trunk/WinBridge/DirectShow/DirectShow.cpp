@@ -12,9 +12,9 @@ using namespace WinBridge::DirectShow;
 using namespace msclr::interop;
 
 // public structs
-DmoPartialMediaType::DmoPartialMediaType(DMO_PARTIAL_MEDIATYPE& mediaType){
-	this->type = *Dmo::GUID2Guid(mediaType.type);
-	this->subtype = *Dmo::GUID2Guid(mediaType.subtype);
+void DmoPartialMediaType::init(DMO_PARTIAL_MEDIATYPE& mediaType){
+	this->type = *Utils::GUID2Guid(mediaType.type);
+	this->subtype = *Utils::GUID2Guid(mediaType.subtype);
 }
 
 // public classes
@@ -57,7 +57,10 @@ IEnumDmo^ Dmo::DmoEnum(Guid^ guidCategory, DmoEnumFlags dwFlags, array<DmoPartia
 	}
 	
 }
-void Dmo::DmoGetTypes(Guid^ clsidDmo, array<DmoPartialMediaType^> ^%inputTypes, array<DmoPartialMediaType^> ^%outputTypes){
+void Dmo::DmoGetTypes(
+	Guid clsidDmo, 
+	[Runtime::InteropServices::Out] array<DmoPartialMediaType> ^%inputTypes, 
+	[Runtime::InteropServices::Out] array<DmoPartialMediaType> ^%outputTypes){
 	const int nDef = 16;
 	DMO_PARTIAL_MEDIATYPE inDef[nDef];
 	DMO_PARTIAL_MEDIATYPE outDef[nDef];
@@ -69,7 +72,7 @@ void Dmo::DmoGetTypes(Guid^ clsidDmo, array<DmoPartialMediaType^> ^%inputTypes, 
     unsigned long pulOutputTypesSupplied;
     DMO_PARTIAL_MEDIATYPE *pOutputTypes = outDef;
 
-	REFCLSID refClsid = Guid2GUID(clsidDmo);
+	REFCLSID refClsid = Utils::Guid2GUID(clsidDmo);
 
 	try{
 		do{
@@ -107,14 +110,14 @@ void Dmo::DmoGetTypes(Guid^ clsidDmo, array<DmoPartialMediaType^> ^%inputTypes, 
 
 		}while(true);
 
-		inputTypes = gcnew array<DmoPartialMediaType^>(pulInputTypesSupplied);
+		inputTypes = gcnew array<DmoPartialMediaType>(pulInputTypesSupplied);
 		for(unsigned int i = 0; i < pulInputTypesSupplied; i++){
-			inputTypes[i] = gcnew DmoPartialMediaType(pInputTypes[i]);
+			inputTypes[i].init(pInputTypes[i]);
 		}
 
-		outputTypes = gcnew array<DmoPartialMediaType^>(pulOutputTypesSupplied);
+		outputTypes = gcnew array<DmoPartialMediaType>(pulOutputTypesSupplied);
 		for(unsigned int i = 0; i < pulOutputTypesSupplied; i++){
-			outputTypes[i] = gcnew DmoPartialMediaType(pOutputTypes[i]);
+			outputTypes[i].init(pOutputTypes[i]);
 		}
 		
 	}finally{
@@ -165,23 +168,25 @@ EnumDmoClass::!EnumDmoClass(){
 		this->pEnumDMO = NULL;
 	}
 }
-DWORD EnumDmoClass::Next(DWORD itemsToFetch, array<Guid^>^ clsids, array<String^>^ names){
+int EnumDmoClass::Next(int cItemsToFetch, [Runtime::InteropServices::Out] array<Guid>^ %clsids, [Runtime::InteropServices::Out] array<String^>^ %names){
 	CLSID* pCLSID = NULL;
 	WCHAR **Names = NULL;
     DWORD pcItemsFetched = 0;
 
 	try{
+		clsids = gcnew array<Guid>(cItemsToFetch);
+		names = gcnew array<String^>(cItemsToFetch);
 		pCLSID = new CLSID[clsids->Length];
 		Names = new WCHAR*[names->Length];
-		HRESULT hr = this->pEnumDMO->Next(itemsToFetch, pCLSID, Names, &pcItemsFetched);
+		HRESULT hr = this->pEnumDMO->Next(cItemsToFetch, pCLSID, Names, &pcItemsFetched);
 		if(FAILED(hr)){
 			throw gcnew DmoException(hr);
 		}
-		if(itemsToFetch==1 && hr == S_OK){
+		if(cItemsToFetch==1 && hr == S_OK){
 			pcItemsFetched = 1;
 		}
 		for(unsigned int i = 0; i < pcItemsFetched; i++){
-			clsids[i] = Dmo::GUID2Guid(&pCLSID[i]);
+			clsids[i] = *Utils::GUID2Guid(&pCLSID[i]);
 			names[i] = marshal_as<String^>(Names[i]);
 		}
 		return pcItemsFetched;
