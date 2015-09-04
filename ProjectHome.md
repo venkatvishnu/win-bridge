@@ -1,0 +1,1 @@
+We will develop managed libraries that make available windows native libraries in .NET applications.
